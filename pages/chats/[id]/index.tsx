@@ -11,7 +11,7 @@ import MessageInput from "@/components/ChatsPage/MessageInput";
 function Chat() {
   const { id: contactId } = useRouter().query
   const { data: currentUser, isLoading: loadingUser } = useCurrentUser();
-  const { data: chat, isLoading, error, mutate } = useChat(contactId)
+  const { data: chat, isLoading } = useChat(contactId)
   const [messages, setMessages] = useState<Message[]>()
 
   useEffect(() => {
@@ -21,18 +21,27 @@ function Chat() {
   }, [chat, isLoading])
 
   useEffect(() => {
-    if (currentUser && currentUser.id && !loadingUser && messages) {
+    if (currentUser && !loadingUser && chat) {
       pusherClient.subscribe(currentUser.id)
-      pusherClient.bind("message:add", (data: Message) => {
-        setMessages([...messages, data])
+      pusherClient.bind("message:send", (data: Message) => {
+        setMessages([...chat.messages, data])
       })
     }
-  }, [chat, loadingUser, messages, contactId, currentUser])
+
+    () => {
+      if (currentUser && !loadingUser) {
+        pusherClient.unsubscribe(currentUser.id)
+        pusherClient.unbind("message:send")
+      }
+    }
+  }, [chat, loadingUser, contactId, currentUser])
 
   return (
     <main className="">
       <ChatNav />
-      <MessageInput />
+      {chat && (
+        <MessageInput chatId={chat.id} />
+      )}
       {isLoading && (
         <div className="text-lg flex items-center w-full">
           Cargando Mensajes

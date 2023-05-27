@@ -22,11 +22,6 @@ export default async function handler(
     }
 
     const existingChat = await prisma.chat.findMany({
-      include: {
-        members: true,
-        messages: true,
-      },
-
       where: {
         id: chatId.toString(),
         membersIds: {

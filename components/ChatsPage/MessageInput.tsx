@@ -1,15 +1,31 @@
 import useMessage from "@/hooks/useMessage"
-import { SyntheticEvent } from "react"
-import { AiOutlineSend } from "react-icons/ai";
+import { SyntheticEvent, useCallback } from "react"
+import { MdSend } from "react-icons/md";
+import axios from "axios";
 
-function MessageInput() {
+interface MessageInputProps {
+  chatId: string;
+}
+
+function MessageInput({ chatId }: MessageInputProps) {
   const { content, cleanInput, onChange } = useMessage()
+
+  const SendMessage = useCallback(() => {
+    if (chatId && content !== "") {
+      axios.post("/api/messages", {
+        chatId,
+        content
+      })
+    }
+  }, [chatId, content])
 
   return (
     <form onSubmit={(e: SyntheticEvent) => {
       e.preventDefault()
+      SendMessage()
+      cleanInput()
     }}
-      className="fixed bottom-0 left-0 right-0 flex items-center w-screen p-4 bg-white"
+      className="fixed bottom-0 left-0 right-0 flex items-center w-screen p-4 gap-3 bg-white"
     >
 
       <input
@@ -17,15 +33,17 @@ function MessageInput() {
         onChange={(e) => void onChange(e)}
         value={content}
         placeholder="Mensaje"
+        className="bg-gray-100 w-full px-4 py-2 rounded-full outline-none"
+        autoFocus={true}
       />
 
       <button
         type="submit"
         className="relative flex items-center justify-center"
       >
-        <div className="absolute bg-red-500 p-4"></div>
-        <AiOutlineSend
-          className="text-white text-2xl"
+        <div className="bg-red-500 p-5 rounded-full"></div>
+        <MdSend
+          className="text-white absolute text-[1.2em] cursor-pointer"
         />
       </button>
     </form>

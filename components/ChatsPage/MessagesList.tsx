@@ -8,17 +8,26 @@ interface MessagesList {
 
 function MessagesList({ messages, currentUserId }: MessagesList) {
   return (
-    <ul className="flex flex-col w-full h-full pt-20">
+    <ul className="flex flex-col w-full h-full pt-20 gap-4 px-4">
       {messages.map((message) => (
         <li
           key={message.id}
           className={clsx(
             "flex w-full items-center",
             message.senderId === currentUserId ?
-              "flex-row-reverse bg-red-500 text-white p-1 rounded-lg" :
-              "flex-row bg-gray-300 text-gray-700"
+              "flex-row-reverse" :
+              "flex-row"
           )}>
-          {message.content}
+          <div
+            className={clsx(
+              "px-2 py-1 rounded-md",
+              message.senderId === currentUserId ?
+                "bg-red-500 text-white" :
+                "bg-gray-200 text-gray-700"
+            )}
+          >
+            {message.content}
+          </div>
         </li>
       ))}
     </ul>
