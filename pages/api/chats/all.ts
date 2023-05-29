@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import serverAuth from "@/libs/serverAuth";
 import prisma from "@/libs/prismadb";
 
 export default async function handler(
@@ -10,23 +11,20 @@ export default async function handler(
   }
 
   try {
-    const { email } = req.query;
-    console.log("EMAIL", email);
-    if (!email) {
-      return res.status(400).json({
-        message: "email is required",
-      });
-    }
+    const { currentUser } = await serverAuth(req, res);
 
-    const existingUser = await prisma.user.findMany({
+    const existingChats = await prisma.chat.findMany({
+      include: {
+        members: true,
+        messages: true,
+      },
       where: {
-        email: email.toString(),
+        membersIds: {
+          has: currentUser.id,
+        },
       },
     });
-    
-    console.log(existingUser);
-
-    return res.status(200).json(existingUser[0]);
+    return res.status(200).json(existingChats);
   } catch (error) {
     return res.status(400).json({
       error,

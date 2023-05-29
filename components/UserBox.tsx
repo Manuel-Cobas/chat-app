@@ -10,18 +10,19 @@ import { useRouter } from "next/router";
 
 interface UserBoxProps {
   user: User | null
-  contact: ContactPayload | null
   image: string | null
 }
 
-function UserBox({ user, contact, image }: UserBoxProps) {
+function UserBox({ user, image }: UserBoxProps) {
   const { closeSearch, setSearch } = useSearchStore(state => state)
   const router = useRouter()
 
   const addContact = useCallback(
     () => {
-      if (user !== null && contact === null) {
-        axios.post(`/api/contacts/${user.id}`)
+      if (user !== null) {
+        axios.post("/api/chats/new", {
+          receiverId: user.id
+        })
           .then((res) => console.log(res.data))
           .finally(() => {
             setSearch("")
@@ -29,7 +30,7 @@ function UserBox({ user, contact, image }: UserBoxProps) {
           })
       }
     },
-    [user, contact, setSearch, closeSearch],
+    [user, , setSearch, closeSearch],
   )
 
 
@@ -38,9 +39,7 @@ function UserBox({ user, contact, image }: UserBoxProps) {
       {image ? (
         <Image
           onClick={() => {
-            if (contact && contact.contact.id && !user) {
-              void router.push(`/chats/${contact.contact.id}`)
-            }
+            console.log("Redireccion chat")
           }}
           src={`${image.toString()}`}
           alt="Usuario Chat App"
@@ -58,31 +57,19 @@ function UserBox({ user, contact, image }: UserBoxProps) {
 
       <div
         onClick={() => {
-          if (contact && contact.contact.id && !user) {
-            void router.push(`/chats/${contact.contact.id.toString()}`)
-          }
+          console.log("Redireccion chat")
         }}
         className="flex flex-col justify-center h-16 w-full max-w-[65%]"
       >
         <h2 className="text-lg text-gray-800">
           {user !== null && user.name}
-          {contact !== null && contact.contact.name}
         </h2>
-        <p className="text-gray-600 text-sm">
-          <span></span> Tú: Ultimo Mensaje
-        </p>
       </div>
 
-      {contact !== null && (
-        <div className="bg-yellow-600 p-5"></div>
-      )}
-
-      {user !== null && (
-        <IoMdPersonAdd
-          onClick={addContact}
-          className="text-3xl text-red-500 cursor-pointer"
-        />
-      )}
+      <IoMdPersonAdd
+        onClick={addContact}
+        className="text-3xl text-red-500 cursor-pointer"
+      />
     </div>
   )
 }

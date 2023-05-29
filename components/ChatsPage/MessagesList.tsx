@@ -1,10 +1,5 @@
-import { Message } from "@prisma/client"
 import clsx from "clsx"
-
-interface MessagesList {
-  messages: Message[]
-  currentUserId: string
-}
+import { MessagesList } from "../types"
 
 function MessagesList({ messages, currentUserId }: MessagesList) {
   return (

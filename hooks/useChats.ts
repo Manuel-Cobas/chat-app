@@ -1,9 +1,9 @@
 import useSWR from "swr";
 import fetcher from "@/libs/fetcher";
 
-function useContacts() {
+function useChats() {
   const { data, isLoading, mutate, error } = useSWR(
-    "/api/contacts/all",
+    "/api/chats/all",
     fetcher
   );
   // console.log(data);
@@ -15,4 +15,4 @@ function useContacts() {
   };
 }
 
-export default useContacts;
+export default useChats;

@@ -2,10 +2,7 @@ import useMessage from "@/hooks/useMessage"
 import { SyntheticEvent, useCallback } from "react"
 import { MdSend } from "react-icons/md";
 import axios from "axios";
-
-interface MessageInputProps {
-  chatId: string;
-}
+import { MessageInputProps } from "../types";
 
 function MessageInput({ chatId }: MessageInputProps) {
   const { content, cleanInput, onChange } = useMessage()
