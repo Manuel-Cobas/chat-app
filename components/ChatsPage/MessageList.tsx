@@ -1,9 +1,22 @@
 import clsx from "clsx"
 import { MessagesList } from "../types"
+import { useRef, useEffect } from "react"
 
 function MessagesList({ messages, currentUserId }: MessagesList) {
+  const scrollRef = useRef<HTMLUListElement>(null)
+
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end"
+    })
+  }, [messages])
+
   return (
-    <ul className="flex flex-col w-full h-full pt-20 gap-4 px-4">
+    <ul
+      ref={scrollRef}
+      className="flex flex-col w-full h-full pt-20 pb-20 gap-4 px-4"
+    >
       {messages.map((message) => (
         <li
           key={message.id}

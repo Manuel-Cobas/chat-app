@@ -29,7 +29,30 @@ export default async function handler(
       },
     });
 
-    console.log(existingUser);
+    if (!existingUser || existingUser.length === 0) {
+      return res.status(404).end();
+    }
+
+    const existingChatWithReceiver = await prisma.chat.findMany({
+      where: {
+        OR: [
+          {
+            membersIds: {
+              equals: [currentUser.id, existingUser[0].id],
+            },
+          },
+          {
+            membersIds: {
+              equals: [existingUser[0].id, currentUser.id],
+            },
+          },
+        ],
+      },
+    });
+
+    if (existingChatWithReceiver && existingChatWithReceiver.length > 0) {
+      return res.status(400).end();
+    }
 
     return res.status(200).json(existingUser[0]);
   } catch (error) {

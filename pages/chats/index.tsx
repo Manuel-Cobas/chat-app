@@ -1,3 +1,4 @@
+import ActiveStatus from "@/components/ActiveStatus";
 import ChatList from "@/components/ChatsPage/ChatList";
 import Navigation from "@/components/ChatsPage/Navigation"
 import UserBox from "@/components/UserBox";
@@ -11,14 +12,15 @@ import { getSession } from "next-auth/react";
 function ChatsPage() {
   const { data: currentUser } = useCurrentUser()
   const { data: chats, isLoading, error } = useChatList(currentUser?.id)
-  // const { search } = useSearchStore((state) => state)
-  // const { data: user } = useUser(search)
+  const { search } = useSearchStore((state) => state)
+  const { data: user } = useUser(search)
 
   return (
     <main className="w-screen h-full">
+      <ActiveStatus />
       <Navigation />
 
-      {/* {user && (
+      {user && (
         <div className="w-screen h-full pt-10">
           <UserBox
             user={user}
@@ -27,7 +29,7 @@ function ChatsPage() {
             }
           />
         </div>
-      )} */}
+      )}
 
       {!error && !chats && isLoading && (
         <div className="pt-10 text-2xl text-gray-700">
