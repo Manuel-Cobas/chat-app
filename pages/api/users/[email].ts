@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/libs/prismadb";
+import serverAuth from "@/libs/serverAuth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +12,8 @@ export default async function handler(
 
   try {
     const { email } = req.query;
-    console.log("EMAIL", email);
+    const { currentUser } = await serverAuth(req, res);
+
     if (!email) {
       return res.status(400).json({
         message: "email is required",
@@ -21,9 +23,12 @@ export default async function handler(
     const existingUser = await prisma.user.findMany({
       where: {
         email: email.toString(),
+        NOT: {
+          email: currentUser.email,
+        },
       },
     });
-    
+
     console.log(existingUser);
 
     return res.status(200).json(existingUser[0]);

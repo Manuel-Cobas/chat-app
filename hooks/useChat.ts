@@ -1,10 +1,9 @@
 import fetcher from "@/libs/fetcher";
 import useSWR from "swr";
-import axios from "axios";
 
-function useChat(receiverId: string[]) {
+function useChat(receiverId: any) {
   const { data, isLoading, error, mutate } = useSWR(
-    `/api/chats/${receiverId}`,
+    `/api/chats/${receiverId.toString()}`,
     fetcher
   );
 

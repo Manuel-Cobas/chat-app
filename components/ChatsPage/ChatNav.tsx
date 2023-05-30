@@ -8,7 +8,7 @@ function ChatNav({ chat, currentUserId }: ChatNavProps) {
   const router = useRouter()
 
   const receiver = useMemo(() => {
-    return chat.members.find(r => r.id !== currentUserId)
+    return chat && chat.members.find(r => r.id !== currentUserId)
   }, [chat, currentUserId])
 
   return (

@@ -1,20 +1,10 @@
-import useMessage from "@/hooks/useMessage"
-import { SyntheticEvent, useCallback } from "react"
+import useMessage from "@/hooks/useMessageList"
+import { SyntheticEvent } from "react"
 import { MdSend } from "react-icons/md";
-import axios from "axios";
 import { MessageInputProps } from "../types";
 
 function MessageInput({ chatId }: MessageInputProps) {
-  const { content, cleanInput, onChange } = useMessage()
-
-  const SendMessage = useCallback(() => {
-    if (chatId && content !== "") {
-      axios.post("/api/messages", {
-        chatId,
-        content
-      })
-    }
-  }, [chatId, content])
+  const { content, cleanInput, onChange, SendMessage } = useMessage(chatId.toString())
 
   return (
     <form onSubmit={(e: SyntheticEvent) => {

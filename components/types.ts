@@ -27,3 +27,15 @@ export interface MessagesList {
 export interface MessageInputProps {
   chatId: string;
 }
+
+export interface AuthButtonProps {
+  variant: string;
+  width?: string;
+  padding?: string;
+  title?: string;
+}
+
+export interface ChatListProps {
+  chats: ChatPayload[];
+  currentUserId: string;
+}

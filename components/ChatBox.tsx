@@ -54,7 +54,7 @@ function ChatBox({ chat, currentUserId }: ChatBoxProps) {
         </h2>
         <p className="text-sm text-gray-400">
           {
-            lastMessage !== null ?
+            lastMessage ?
               lastMessage.content :
               "Mensaje"
           }

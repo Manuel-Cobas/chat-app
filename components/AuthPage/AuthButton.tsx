@@ -5,19 +5,13 @@ import { BsGithub } from "react-icons/bs";
 import { FaDiscord } from "react-icons/fa";
 import { useRouter } from "next/router";
 import clsx from "clsx";
+import { AuthButtonProps } from "../types";
 
 export const Variants = [
   "GOOGLE",
   "GITHUB",
   "DISCORD",
 ]
-
-interface AuthButtonProps {
-  variant: string
-  width?: string
-  padding?: string
-  title?: string
-}
 
 function AuthButton({ variant, width, padding, title }: AuthButtonProps) {
   const router = useRouter()
