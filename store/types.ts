@@ -1,3 +1,5 @@
+import { User } from "@prisma/client";
+
 export interface SearchState {
   search: string;
   isOpen: boolean;
@@ -11,4 +13,9 @@ export interface ActiveStoreProps {
   add: (id: string) => void;
   remove: (id: string) => void;
   set: (ids: string[]) => void;
+}
+
+export interface useSearchUserProps {
+  user: User | null;
+  setUser: (data: User) => void;
 }

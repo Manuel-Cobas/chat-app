@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { ActiveStoreProps, SearchState } from "./types";
+import { User } from "@prisma/client";
+import { ActiveStoreProps, SearchState, useSearchUserProps } from "./types";
 
 export const useSearchStore = create<SearchState>()((set) => ({
   search: "",
@@ -23,4 +24,9 @@ export const useActiveListStore = create<ActiveStoreProps>()((set) => ({
       members: state.members.filter((memberId) => memberId !== id),
     })),
   set: (ids) => set({ members: ids }),
+}));
+
+export const useSearchUserStore = create<useSearchUserProps>()((set) => ({
+  user: null,
+  setUser: (data: User) => set((state) => ({ ...state, user: data })),
 }));

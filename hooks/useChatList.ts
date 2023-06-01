@@ -35,7 +35,6 @@ function useChatList(currentUserId: string) {
     };
   }, [currentUserId, chats, setChatsList, chatsList]);
 
-  console.log("LIST", chatsList);
   return {
     data: chatsList,
     isLoading,

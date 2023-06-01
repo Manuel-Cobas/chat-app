@@ -1,4 +1,4 @@
-import ChatBox from "../ChatBox";
+import ChatBox from "./ChatBox";
 import type { ChatListProps, ChatPayload } from "../types";
 
 function ChatList({ chats, currentUserId }: ChatListProps) {

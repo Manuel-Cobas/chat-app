@@ -1,23 +1,15 @@
-import { User } from "@prisma/client"
 import { IoMdPersonAdd } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
-import { ContactPayload } from "./ChatsPage/List";
 import Image from "next/image";
 import { useCallback } from "react";
 import axios from "axios"
 import { useSearchStore } from "@/store/store";
-import { useRouter } from "next/router";
-
-interface UserBoxProps {
-  user: User | null
-  image: string | null
-}
+import { UserBoxProps } from "./types";
 
 function UserBox({ user, image }: UserBoxProps) {
   const { closeSearch, setSearch } = useSearchStore(state => state)
-  const router = useRouter()
 
-  const addContact = useCallback(
+  const newChat = useCallback(
     () => {
       if (user !== null) {
         axios.post("/api/chats/new", {
@@ -67,7 +59,7 @@ function UserBox({ user, image }: UserBoxProps) {
       </div>
 
       <IoMdPersonAdd
-        onClick={addContact}
+        onClick={newChat}
         className="text-3xl text-red-500 cursor-pointer"
       />
     </div>

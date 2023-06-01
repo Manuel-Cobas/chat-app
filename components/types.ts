@@ -39,3 +39,19 @@ export interface ChatListProps {
   chats: ChatPayload[];
   currentUserId: string;
 }
+
+export interface AvatarProps {
+  ImageUrl: string | null;
+  chatId: string;
+  user: User;
+}
+
+export interface UserBoxProps {
+  user: User | null;
+  image: string | null;
+}
+
+export interface LastMessage {
+  messages: Message[];
+  currentUserId: string;
+}

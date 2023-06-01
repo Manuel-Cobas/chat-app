@@ -1,31 +1,35 @@
-import { ChangeEvent, useCallback, useState } from "react";
-import axios from "axios";
+import { Message } from "@prisma/client";
+import { useEffect, useState } from "react";
+import { pusherClient } from "@/libs/pusher";
 
-function useMessage(chatId: string) {
-  const [content, setContent] = useState("");
+function useMessages(messages: Message[], currentUserId: string) {
+  const [messagesState, setMessages] = useState<Message[]>([]);
+  console.log(messages);
+  useEffect(() => {
+    if (messages && messages.length > 0) {
+      setMessages(messages);
+    }
+  }, [messages]);
 
-  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    setContent(e.target.value);
-  }, []);
-
-  const cleanInput = () => setContent("");
-
-  const SendMessage = useCallback(() => {
-    if (chatId && content !== "") {
-      axios.post("/api/messages", {
-        chatId,
-        content,
+  useEffect(() => {
+    if (currentUserId) {
+      console.log("STATE", messagesState);
+      pusherClient.subscribe(currentUserId);
+      pusherClient.bind("message:send", (data: Message) => {
+        setMessages([...messagesState, data]);
       });
     }
-  }, [chatId, content]);
-
-  return {
-    content,
-    cleanInput,
-    onChange,
-    SendMessage
-  };
+    
+    () => {
+      if (currentUserId) {
+        pusherClient.unsubscribe(currentUserId);
+        pusherClient.unbind("message:send");
+      }
+    };
+  }, [messagesState, currentUserId]);
+  
+  console.log("STATE", messagesState);
+  return { messagesState };
 }
 
-export default useMessage;
+export default useMessages;

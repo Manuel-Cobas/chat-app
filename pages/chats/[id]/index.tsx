@@ -6,13 +6,14 @@ import MessagesList from "@/components/ChatsPage/MessageList";
 import MessageInput from "@/components/ChatsPage/MessageInput";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
-import useMessages from "@/hooks/useMessages";
+import useMessageList from "@/hooks/useMessageList";
+import Loading from "@/components/Loading";
 
 function Chat() {
   const { id: chatId } = useRouter().query
-  const { data: currentUser, isLoading: loadingUser } = useCurrentUser();
+  const { data: currentUser } = useCurrentUser();
   const { data: chat, isLoading: loadingChat } = useChat(chatId?.toString())
-  const { messagesState: messages } = useMessages(
+  const { messagesState: messages } = useMessageList(
     chat?.messages,
     currentUser?.id
   )
@@ -20,14 +21,13 @@ function Chat() {
   return (
     <main className="">
       <ChatNav chat={chat} currentUserId={currentUser?.id} />
-      {chat && (
-        <MessageInput chatId={chat.id} />
-      )}
 
       {loadingChat && (
-        <div className="text-lg flex items-center w-full">
-          Cargando Mensajes
-        </div>
+        <Loading />
+      )}
+
+      {chat && (
+        <MessageInput chatId={chat.id} />
       )}
 
       {messages && messages.length === 0 && (

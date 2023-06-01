@@ -1,10 +1,10 @@
-import useMessage from "@/hooks/useMessageList"
+import useSendMessage from "@/hooks/useSendMessage"
 import { SyntheticEvent } from "react"
 import { MdSend } from "react-icons/md";
 import { MessageInputProps } from "../types";
 
 function MessageInput({ chatId }: MessageInputProps) {
-  const { content, cleanInput, onChange, SendMessage } = useMessage(chatId.toString())
+  const { content, cleanInput, onChange, SendMessage } = useSendMessage(chatId.toString())
 
   return (
     <form onSubmit={(e: SyntheticEvent) => {

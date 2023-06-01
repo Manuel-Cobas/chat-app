@@ -2,18 +2,17 @@ import ActiveStatus from "@/components/ActiveStatus";
 import ChatList from "@/components/ChatsPage/ChatList";
 import Navigation from "@/components/ChatsPage/Navigation"
 import UserBox from "@/components/UserBox";
+import Spinner from "@/components/Spinner";
 import useChatList from "@/hooks/useChatList";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import useUser from "@/hooks/useUser";
-import { useSearchStore } from "@/store/store";
+import useSearchUser from "@/hooks/useUser";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 
 function ChatsPage() {
   const { data: currentUser } = useCurrentUser()
-  const { data: chats, isLoading, error } = useChatList(currentUser?.id)
-  const { search } = useSearchStore((state) => state)
-  const { data: user } = useUser(search)
+  const { data: chats, isLoading: loadingChats, error } = useChatList(currentUser?.id)
+  const {  user, isLoading: loadingUser } = useSearchUser()
 
   return (
     <main className="w-screen h-full">
@@ -31,20 +30,18 @@ function ChatsPage() {
         </div>
       )}
 
-      {!error && !chats && isLoading && (
-        <div className="pt-10 text-2xl text-gray-700">
-          Cargando Contactos
+      {loadingChats || loadingUser && (
+        <div className="flex justify-center items-center w-screen pb-16 h-screen">
+          <Spinner />
         </div>
       )}
 
-
-      {!isLoading && !error && chats && currentUser && (
+      {!error && chats && currentUser && (
         <ChatList
           currentUserId={currentUser.id}
           chats={chats}
         />
       )}
-
     </main>
   )
 }
