@@ -4,6 +4,8 @@ import { ChatNavProps } from "../types";
 import { useMemo } from "react";
 import Image from "next/image";
 
+import { FaUserCircle } from "react-icons/fa";
+
 function ChatNav({ chat, currentUserId }: ChatNavProps) {
   const router = useRouter()
 
@@ -39,6 +41,11 @@ function ChatNav({ chat, currentUserId }: ChatNavProps) {
               </p>
             </li>
           </ul>
+          <li className="">
+            <FaUserCircle
+              className="text-white text-2xl lg:mr-4"
+            />
+          </li>
         </ul>
       </nav>
     </header>

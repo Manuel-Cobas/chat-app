@@ -8,6 +8,7 @@ import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import useMessageList from "@/hooks/useMessageList";
 import Loading from "@/components/Loading";
+import EditChatModal from "@/components/Modals/EditChatModal";
 
 function Chat() {
   const { id: chatId } = useRouter().query
@@ -39,10 +40,14 @@ function Chat() {
           currentUserId={currentUser.id}
         />
       )}
-      
+
       {chat && (
         <MessageInput chatId={chat.id} />
       )}
+
+      {/* {chat && (
+        <EditChatModal chat={chat} />
+      )} */}
     </main>
   )
 }

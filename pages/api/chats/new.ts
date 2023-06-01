@@ -13,7 +13,7 @@ export default async function handler(
 
   try {
     const { currentUser } = await serverAuth(req, res);
-    const { receiverId } = req.body;
+    const { name, receiverId } = req.body;
 
     if (!receiverId) {
       return res.status(400).json({
@@ -37,7 +37,7 @@ export default async function handler(
         members: true,
       },
       data: {
-        name: existingReceiver.name,
+        name: !name ? existingReceiver.name : name,
         membersIds: [currentUser.id, receiverId],
       },
     });
