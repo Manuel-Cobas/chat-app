@@ -26,9 +26,6 @@ function Chat() {
         <Loading />
       )}
 
-      {chat && (
-        <MessageInput chatId={chat.id} />
-      )}
 
       {messages && messages.length === 0 && (
         <div className="w-full text-center text-gray-700 text-lg pt-20">
@@ -41,6 +38,10 @@ function Chat() {
           messages={messages}
           currentUserId={currentUser.id}
         />
+      )}
+      
+      {chat && (
+        <MessageInput chatId={chat.id} />
       )}
     </main>
   )

@@ -5,7 +5,6 @@ import axios from "axios";
 function useSearchUser(email: string = "") {
   const { user, setUser } = useSearchUserStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const SearchUser = useCallback(() => {
     email !== "" &&
       axios
@@ -18,10 +17,15 @@ function useSearchUser(email: string = "") {
         .finally(() => setIsLoading(false));
   }, [email, setUser]);
 
+  const clearUserSearch = useCallback(() => {
+    setUser(null);
+  }, [setUser]);
+
   return {
     user,
     isLoading,
     SearchUser,
+    clearUserSearch,
   };
 }
 

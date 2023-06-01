@@ -5,19 +5,31 @@ import { HiBackspace } from "react-icons/hi";
 import { MdPersonSearch } from "react-icons/md";
 import useUser from "@/hooks/useUser";
 import isEmail from "@/libs/isEmail";
-import { useMemo } from "react";
+import { useEffect } from "react";
 import clsx from "clsx";
 
 function Search() {
   const { search, isOpen, setSearch, closeSearch } = useSearchStore((state) => state)
-  const verifyEmail = useMemo(() => isEmail(search), [search])
-  const { SearchUser } = useUser(search)
+  const verifyEmail = isEmail(search)
+  const { SearchUser, clearUserSearch } = useUser(search)
+
+  useEffect(() => {
+    return () => {
+      clearUserSearch()
+    }
+  }, [clearUserSearch])
+
 
   return (
-    <form className={clsx(
-      "justify-between absolute top-0 right-0 left-0 h-14 bg-red-500 px-4",
-      isOpen ? "flex" : "hidden"
-    )}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        if (verifyEmail) SearchUser()
+      }}
+      className={clsx(
+        "justify-between absolute top-0 right-0 left-0 h-14 bg-red-500 px-4",
+        isOpen ? "flex" : "hidden"
+      )}>
       <div className="flex items-center gap-2 w-11/12">
         <BiArrowBack
           onClick={() => {
@@ -41,12 +53,13 @@ function Search() {
         />
       </div>
       <div className="flex items-center gap-2">
-        <button type="submit">
+        <button
+          className={clsx(
+            verifyEmail ? "block" : "hidden"
+          )}
+          type="submit"
+        >
           <MdPersonSearch
-            onClick={(e) => {
-              e.preventDefault()
-              void verifyEmail && SearchUser()
-            }}
             className="text-white mr-2 text-4xl p-1 cursor-pointer"
           />
         </button>

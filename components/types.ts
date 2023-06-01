@@ -55,3 +55,8 @@ export interface LastMessage {
   messages: Message[];
   currentUserId: string;
 }
+
+export interface ModalLayoutProps {
+  children: JSX.Element | JSX.Element[]
+  show: boolean
+}

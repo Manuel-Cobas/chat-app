@@ -1,15 +1,15 @@
 import { HiOutlineSearch } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
-import { signOut } from "next-auth/react";
 import Search from "../Search";
-import { useSearchStore } from "@/store/store";
+import { useLogoutModalStore, useSearchStore } from "@/store/store";
 
 function Navigation() {
   const { openSearch } = useSearchStore((state) => state)
+  const { openModal } = useLogoutModalStore(state => state)
 
   return (
-    <header className="relative top-0 right-0 left-0 h-14">
-      <nav>
+    <header className="fixed top-0 right-0 left-0 h-14">
+      <nav className="relative">
         <Search />
         <ul className="flex items-center justify-between bg-red-500 w-screen h-14 px-4">
           <li className="text-xl text-white font-semibold">
@@ -25,7 +25,7 @@ function Navigation() {
             <li className="">
               <BiLogOut
                 onClick={() => {
-                  void signOut()
+                  openModal()
                 }}
                 className="text-4xl text-white cursor-pointer p-1"
               />

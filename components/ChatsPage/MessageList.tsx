@@ -15,7 +15,7 @@ function MessagesList({ messages, currentUserId }: MessagesList) {
   return (
     <ul
       ref={scrollRef}
-      className="flex flex-col w-full h-full pt-20 pb-20 gap-4 px-4"
+      className="flex flex-col w-full h-full pt-20 pb-28 gap-4 px-4"
     >
       {messages.map((message) => (
         <li

@@ -4,7 +4,7 @@ import { pusherClient } from "@/libs/pusher";
 
 function useMessages(messages: Message[], currentUserId: string) {
   const [messagesState, setMessages] = useState<Message[]>([]);
-  console.log(messages);
+
   useEffect(() => {
     if (messages && messages.length > 0) {
       setMessages(messages);
@@ -13,7 +13,6 @@ function useMessages(messages: Message[], currentUserId: string) {
 
   useEffect(() => {
     if (currentUserId) {
-      console.log("STATE", messagesState);
       pusherClient.subscribe(currentUserId);
       pusherClient.bind("message:send", (data: Message) => {
         setMessages([...messagesState, data]);
@@ -28,7 +27,6 @@ function useMessages(messages: Message[], currentUserId: string) {
     };
   }, [messagesState, currentUserId]);
   
-  console.log("STATE", messagesState);
   return { messagesState };
 }
 

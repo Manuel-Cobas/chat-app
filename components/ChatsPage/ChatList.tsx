@@ -3,7 +3,7 @@ import type { ChatListProps, ChatPayload } from "../types";
 
 function ChatList({ chats, currentUserId }: ChatListProps) {
   return (
-    <ul className="w-full pt-4">
+    <ul className="w-full pt-16">
       {chats && currentUserId &&
         chats.map((chat: ChatPayload) => (
           <li

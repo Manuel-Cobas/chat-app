@@ -1,7 +1,7 @@
-function isEmail(email: string) {
+function isEmail(email: string): boolean {
   const emailRegex =
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-  emailRegex.test(email) ? true : false;
+  return emailRegex.test(email);
 }
 
 export default isEmail;

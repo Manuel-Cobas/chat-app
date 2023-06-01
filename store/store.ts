@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { User } from "@prisma/client";
-import { ActiveStoreProps, SearchState, useSearchUserProps } from "./types";
+import {
+  ActiveStoreProps,
+  SearchState,
+  useLogoutModalStoreProps,
+  useSearchUserProps,
+} from "./types";
 
 export const useSearchStore = create<SearchState>()((set) => ({
   search: "",
@@ -28,5 +33,13 @@ export const useActiveListStore = create<ActiveStoreProps>()((set) => ({
 
 export const useSearchUserStore = create<useSearchUserProps>()((set) => ({
   user: null,
-  setUser: (data: User) => set((state) => ({ ...state, user: data })),
+  setUser: (data: User | null) => set((state) => ({ ...state, user: data })),
 }));
+
+export const useLogoutModalStore = create<useLogoutModalStoreProps>()(
+  (set) => ({
+    isOpen: false,
+    openModal: () => set((state) => ({ ...state, isOpen: true })),
+    closeModal: () => set((state) => ({ ...state, isOpen: false })),
+  })
+);

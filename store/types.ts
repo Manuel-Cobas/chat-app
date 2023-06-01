@@ -17,5 +17,11 @@ export interface ActiveStoreProps {
 
 export interface useSearchUserProps {
   user: User | null;
-  setUser: (data: User) => void;
+  setUser: (data: User | null) => void;
+}
+
+export interface useLogoutModalStoreProps {
+  isOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
 }
