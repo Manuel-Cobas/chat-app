@@ -1,15 +1,17 @@
-import { useSearchStore } from "@/store/store";
-import { ChangeEvent } from "react";
-import { BiArrowBack } from "react-icons/bi";
-import { HiBackspace } from "react-icons/hi";
-import { MdPersonSearch } from "react-icons/md";
-import useUser from "@/hooks/useUser";
-import isEmail from "@/libs/isEmail";
 import { useEffect } from "react";
+import { ChangeEvent } from "react";
 import clsx from "clsx";
 
+import useUser from "@/hooks/useUser";
+import { useSearch } from "@/store/useSearch";
+import isEmail from "@/libs/isEmail";
+
+import { MdPersonSearch } from "react-icons/md";
+import { BiArrowBack } from "react-icons/bi";
+import { HiBackspace } from "react-icons/hi";
+
 function Search() {
-  const { search, isOpen, setSearch, closeSearch } = useSearchStore((state) => state)
+  const { search, isOpen, setSearch, closeSearch } = useSearch((state) => state)
   const verifyEmail = isEmail(search)
   const { SearchUser, clearUserSearch } = useUser(search)
 

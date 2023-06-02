@@ -11,7 +11,7 @@ export interface ChatPayload {
   members: User[];
   membersIds: string[];
   messages: Message[];
-  createAt: string;
+  createdAt: string;
 }
 
 export interface ChatBoxProps {
@@ -57,6 +57,24 @@ export interface LastMessage {
 }
 
 export interface ModalLayoutProps {
-  children: JSX.Element | JSX.Element[]
+  children: JSX.Element | JSX.Element[];
+  show: boolean;
+}
+
+export interface QuestionModalProps {
+  buttonTitle: string;
+  title: string;
+  description?: string;
+  method: () => void;
+}
+
+export interface ChatInfoModalProps {
+  chat: ChatPayload;
+}
+
+export interface ChatNameProps {
   show: boolean
+  chatName: string
+  setChatName: (name: string) => void
+  setShowInput: (val: boolean) => void
 }

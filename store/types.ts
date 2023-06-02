@@ -8,19 +8,25 @@ export interface SearchState {
   openSearch: () => void;
 }
 
-export interface ActiveStoreProps {
+export interface ActiveStore {
   members: string[];
   add: (id: string) => void;
   remove: (id: string) => void;
   set: (ids: string[]) => void;
 }
 
-export interface useSearchUserProps {
+export interface SearchUser {
   user: User | null;
   setUser: (data: User | null) => void;
 }
 
-export interface useLogoutModalStoreProps {
+export interface QuestionModal {
+  isOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+}
+
+export interface ChatNameModal {
   isOpen: boolean;
   openModal: () => void;
   closeModal: () => void;

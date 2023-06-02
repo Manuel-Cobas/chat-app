@@ -1,13 +1,15 @@
-import { IoMdPersonAdd } from "react-icons/io";
-import { FaUserCircle } from "react-icons/fa";
+import axios from "axios"
 import Image from "next/image";
 import { useCallback } from "react";
-import axios from "axios"
-import { useSearchStore } from "@/store/store";
-import { UserBoxProps } from "./types";
+
+import { useSearch } from "@/store/useSearch";
+import { UserBoxProps } from "../types";
+
+import { IoMdPersonAdd } from "react-icons/io";
+import { FaUserCircle } from "react-icons/fa";
 
 function UserBox({ user, image }: UserBoxProps) {
-  const { closeSearch, setSearch } = useSearchStore(state => state)
+  const { closeSearch, setSearch } = useSearch(state => state)
 
   const newChat = useCallback(
     () => {

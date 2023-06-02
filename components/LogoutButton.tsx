@@ -1,4 +1,3 @@
-import { signOut } from "next-auth/react";
 import { BiLogOut } from "react-icons/bi";
 import { useState } from "react";
 
@@ -10,7 +9,6 @@ function LogOutButton() {
       <BiLogOut
         onClick={(e) => {
           e.preventDefault();
-          // void signOut()
           setIsOpen(!isOpen)
         }}
         className="text-4xl text-white cursor-pointer p-1"

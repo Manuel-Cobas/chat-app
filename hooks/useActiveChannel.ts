@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useActiveListStore } from "@/store/store";
 import { Channel, Members } from "pusher-js";
 import { pusherClient } from "@/libs/pusher";
+import { useActiveList } from "@/store/useActiveList";
 
 function useActiveChannel() {
-  const { set, add, remove } = useActiveListStore((state) => state);
+  const { set, add, remove } = useActiveList((state) => state);
   const [activeChannel, setActiveChannel] = useState<Channel | null>(null);
 
   useEffect(() => {

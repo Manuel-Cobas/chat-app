@@ -1,20 +1,22 @@
-import ActiveStatus from "@/components/ActiveStatus";
+import { getSession, signOut } from "next-auth/react";
+import { NextPageContext } from "next";
+
+import ActiveStatus from "@/components/ChatsPage/ActiveStatus";
 import ChatList from "@/components/ChatsPage/ChatList";
 import Navigation from "@/components/ChatsPage/Navigation"
-import UserBox from "@/components/UserBox";
-import Spinner from "@/components/Spinner";
+import UserBox from "@/components/ChatsPage/UserBox";
+import Spinner from "@/components/Loading/Spinner";
+import QuestionModal from "@/components/Modals/QuestionModal";
+
+import { useSearch } from "@/store/useSearch";
 import useChatList from "@/hooks/useChatList";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useSearchUser from "@/hooks/useUser";
-import { NextPageContext } from "next";
-import { getSession } from "next-auth/react";
 import isEmail from "@/libs/isEmail";
-import { useSearchStore } from "@/store/store";
-import LogoutModal from "@/components/Modals/LogoutModal";
 
 function ChatsPage() {
   const { data: currentUser } = useCurrentUser()
-  const { search } = useSearchStore()
+  const { search } = useSearch()
   const { data: chats, isLoading: loadingChats, error } = useChatList(currentUser?.id)
   const { user, isLoading: loadingUser } = useSearchUser()
   const verifyEmail = isEmail(search)
@@ -46,8 +48,14 @@ function ChatsPage() {
           chats={chats}
         />
       )}
+
       <Navigation />
-      <LogoutModal />
+
+      <QuestionModal
+        title={"Desea Cerrar Sesión?"}
+        buttonTitle="Cerrar"
+        method={signOut}
+      />
     </main>
   )
 }

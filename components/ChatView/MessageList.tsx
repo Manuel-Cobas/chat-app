@@ -1,9 +1,11 @@
 import clsx from "clsx"
 import { MessagesList } from "../types"
 import { useRef, useEffect } from "react"
+import { useChatMenu } from "@/store/useChatMenu"
 
 function MessagesList({ messages, currentUserId }: MessagesList) {
   const scrollRef = useRef<HTMLUListElement>(null)
+  const { closeModal } = useChatMenu()
 
   useEffect(() => {
     scrollRef?.current?.scrollIntoView({
@@ -15,6 +17,7 @@ function MessagesList({ messages, currentUserId }: MessagesList) {
   return (
     <ul
       ref={scrollRef}
+      onClick={closeModal}
       className="flex flex-col w-full h-full pt-20 pb-28 gap-4 px-4"
     >
       {messages.map((message) => (

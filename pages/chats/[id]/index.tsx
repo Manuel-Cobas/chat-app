@@ -1,14 +1,14 @@
 import { useRouter } from "next/router";
 import useChat from "@/hooks/useChat";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import ChatNav from "@/components/ChatsPage/ChatNav";
-import MessagesList from "@/components/ChatsPage/MessageList";
-import MessageInput from "@/components/ChatsPage/MessageInput";
+import ChatNav from "@/components/ChatView/ChatNav";
+import MessagesList from "@/components/ChatView/MessageList";
+import MessageInput from "@/components/ChatView/MessageInput";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import useMessageList from "@/hooks/useMessageList";
-import Loading from "@/components/Loading";
-import EditChatModal from "@/components/Modals/EditChatModal";
+import Loading from "@/components/Loading/Loading";
+import QuestionModal from "@/components/Modals/QuestionModal";
 
 function Chat() {
   const { id: chatId } = useRouter().query
@@ -21,7 +21,10 @@ function Chat() {
 
   return (
     <main className="">
-      <ChatNav chat={chat} currentUserId={currentUser?.id} />
+      <ChatNav
+        chat={chat}
+        currentUserId={currentUser?.id}
+      />
 
       {loadingChat && (
         <Loading />
@@ -45,9 +48,12 @@ function Chat() {
         <MessageInput chatId={chat.id} />
       )}
 
-      {/* {chat && (
-        <EditChatModal chat={chat} />
-      )} */}
+      <QuestionModal
+        title="Esta seguro/a de borrar la conversación?"
+        buttonTitle="confirmo"
+        description="Solo podra recuperar el chat si el contacto le envia una solicitud de recuperacion."
+        method={() => { }}
+      />
     </main>
   )
 }

@@ -2,16 +2,20 @@ import useSendMessage from "@/hooks/useSendMessage"
 import { SyntheticEvent } from "react"
 import { MdSend } from "react-icons/md";
 import { MessageInputProps } from "../types";
+import { useChatMenu } from "@/store/useChatMenu";
 
 function MessageInput({ chatId }: MessageInputProps) {
   const { content, cleanInput, onChange, SendMessage } = useSendMessage(chatId.toString())
+  const { closeModal } = useChatMenu()
 
   return (
-    <form onSubmit={(e: SyntheticEvent) => {
-      e.preventDefault()
-      SendMessage()
-      cleanInput()
-    }}
+    <form
+      onClick={closeModal}
+      onSubmit={(e: SyntheticEvent) => {
+        e.preventDefault()
+        SendMessage()
+        cleanInput()
+      }}
       className="fixed bottom-0 left-0 right-0 flex items-center w-screen p-4 gap-3 bg-white"
     >
 

@@ -5,6 +5,7 @@ import axios from "axios";
 function useSearchUser(email: string = "") {
   const { user, setUser } = useSearchUserStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  
   const SearchUser = useCallback(() => {
     email !== "" &&
       axios

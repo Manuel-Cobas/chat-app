@@ -1,11 +1,14 @@
+import Search from "./Search";
+
+import { useQuestionModal } from "@/store/useQuestionModal";
+import { useSearch } from "@/store/useSearch";
+
 import { HiOutlineSearch } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
-import Search from "../Search";
-import { useLogoutModalStore, useSearchStore } from "@/store/store";
 
 function Navigation() {
-  const { openSearch } = useSearchStore((state) => state)
-  const { openModal } = useLogoutModalStore(state => state)
+  const { openSearch } = useSearch((state) => state)
+  const { openModal } = useQuestionModal(state => state)
 
   return (
     <header className="fixed top-0 right-0 left-0 h-14">
