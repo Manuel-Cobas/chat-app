@@ -5,10 +5,13 @@ import { useSearch } from "@/store/useSearch";
 
 import { HiOutlineSearch } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { useNotificationModal } from "@/store/useNotificationsModal";
 
 function Navigation() {
   const { openSearch } = useSearch((state) => state)
-  const { openModal } = useQuestionModal(state => state)
+  const { openModal: openLogoutQuestion } = useQuestionModal(state => state)
+  const { openModal: openNotifications } = useNotificationModal(state => state)
 
   return (
     <header className="fixed top-0 right-0 left-0 h-14">
@@ -20,6 +23,12 @@ function Navigation() {
           </li>
           <ul className="flex items-center gap-1">
             <li className="">
+              <IoMdNotificationsOutline
+                onClick={openNotifications}
+                className="text-white text-4xl p-1 cursor-pointer"
+              />
+            </li>
+            <li className="">
               <HiOutlineSearch
                 onClick={openSearch}
                 className="text-white text-4xl p-1 cursor-pointer"
@@ -28,7 +37,7 @@ function Navigation() {
             <li className="">
               <BiLogOut
                 onClick={() => {
-                  openModal()
+                  openLogoutQuestion()
                 }}
                 className="text-4xl text-white cursor-pointer p-1"
               />

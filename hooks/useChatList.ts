@@ -36,8 +36,8 @@ function useChatList(currentUserId: string) {
   }, [currentUserId, chats, setChatsList, chatsList]);
 
   return {
-    data: chatsList,
-    isLoading,
+    chats: chatsList,
+    loadingChats: isLoading,
     mutate,
     error,
   };

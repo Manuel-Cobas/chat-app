@@ -22,6 +22,9 @@ export default async function handler(
     }
 
     const existingChat = await prisma.chat.findMany({
+      include: {
+        members: true,
+      },
       where: {
         id: chatId.toString(),
         membersIds: {
@@ -46,7 +49,21 @@ export default async function handler(
       },
     });
 
+    const notificationStored = await prisma.notification.create({
+      data: {
+        message: messageStored.content,
+        chatId,
+        senderId: currentUser.id,
+      },
+    });
+
     pusherServer.trigger(currentUser.id, "message:send", messageStored);
+
+    pusherServer.trigger(
+      currentUser.id,
+      "notification:send",
+      notificationStored
+    );
 
     return res.status(200).json(messageStored);
   } catch (error) {

@@ -7,8 +7,8 @@ function useReceiver(members: User[]) {
   const [receiver, setReceiver] = useState<User | null>(null);
 
   useEffect(() => {
-    if (members) {
-      const receiver = members.find((m) => m.id !== currentUser.id);
+    if (members && currentUser) {
+      const receiver = members.find((m: User) => m.id !== currentUser.id);
       setReceiver(receiver ? receiver : null);
     }
   }, [members, currentUser]);

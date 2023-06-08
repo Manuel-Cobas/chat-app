@@ -7,6 +7,7 @@ import Navigation from "@/components/ChatsPage/Navigation"
 import UserBox from "@/components/ChatsPage/UserBox";
 import Spinner from "@/components/Loading/Spinner";
 import QuestionModal from "@/components/Modals/QuestionModal";
+import NotificationsModal from "@/components/Modals/NotificationModal/NotificationsModal";
 
 import { useSearch } from "@/store/useSearch";
 import useChatList from "@/hooks/useChatList";
@@ -16,9 +17,19 @@ import isEmail from "@/libs/isEmail";
 
 function ChatsPage() {
   const { data: currentUser } = useCurrentUser()
+
+  const {
+    chats,
+    loadingChats,
+    error
+  } = useChatList(currentUser?.id)
+
   const { search } = useSearch()
-  const { data: chats, isLoading: loadingChats, error } = useChatList(currentUser?.id)
-  const { user, isLoading: loadingUser } = useSearchUser()
+  const {
+    user,
+    loadingUser
+  } = useSearchUser()
+
   const verifyEmail = isEmail(search)
 
   return (
@@ -55,6 +66,10 @@ function ChatsPage() {
         title={"Desea Cerrar Sesión?"}
         buttonTitle="Cerrar"
         method={signOut}
+      />
+
+      <NotificationsModal
+        currentUser={currentUser}
       />
     </main>
   )

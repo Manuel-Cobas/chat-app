@@ -47,20 +47,23 @@ model User {
   chats    Chat[]   @relation(fields: [chatsIds], references: [id])
   chatsIds String[] @db.ObjectId
 
-  messages Message[] @relation("seen")
-  accounts Account[]
-  sessions Session[]
+  messages      Message[]      @relation("seen")
+  accounts      Account[]
+  sessions      Session[]
+  notifications Notification[] @relation("sender")
 }
 
 model Chat {
-  id   String  @id @default(auto()) @map("_id") @db.ObjectId
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String
 
   members    User[]   @relation(fields: [membersIds], references: [id])
   membersIds String[] @db.ObjectId
 
-  messages  Message[] @relation("messages")
-  createdAt DateTime  @default(now())
+  messages      Message[]      @relation("messages")
+  notifications Notification[] @relation("notifications")
+
+  createdAt DateTime @default(now())
 }
 
 model Message {
@@ -72,7 +75,19 @@ model Message {
 
   sender   User   @relation("seen", fields: [senderId], references: [id], onDelete: Cascade)
   senderId String @db.ObjectId
-  createdAt DateTime  @default(now())
+
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  message String
+
+  sender   User   @relation("sender", fields: [senderId], references: [id])
+  senderId String @db.ObjectId
+
+  chat   Chat   @relation("notifications", fields: [chatId], references: [id])
+  chatId String @db.ObjectId
 }
 
 model VerificationToken {

@@ -11,7 +11,7 @@ import ChatName from "./ChatName";
 
 function ChatNav({ chat }: ChatNavProps) {
   const router = useRouter()
-  const { receiver } = useReceiver(chat.members)
+  const { receiver } = useReceiver(chat?.members)
   const [showInput, setShowInput] = useState<boolean>(false)
   const [chatName, setChatName] = useState("")
 
