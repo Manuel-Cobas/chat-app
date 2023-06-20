@@ -1,16 +1,13 @@
-import { useMemo } from "react";
 import { useRouter } from "next/router";
 import { ChatBoxProps } from "../types";
 
 import Avatar from "../AuthPage/Avatar";
 import LastMessage from "./LastMessage";
+import useReceiver from "@/hooks/useReceiver";
 
-function ChatBox({ chat, currentUserId }: ChatBoxProps) {
+function ChatBox({ chat }: ChatBoxProps) {
+  const { receiver, currentUser } = useReceiver(chat.members)
   const router = useRouter()
-
-  const receiver = useMemo(() => {
-    return chat && chat.members.find((member) => member.id !== currentUserId)
-  }, [chat, currentUserId])
 
   if (!receiver || !chat) return null
 
@@ -32,7 +29,7 @@ function ChatBox({ chat, currentUserId }: ChatBoxProps) {
           {receiver && receiver.name}
         </h2>
         <LastMessage
-          currentUserId={currentUserId}
+          currentUserId={currentUser.id}
           messages={chat.messages}
         />
       </div>

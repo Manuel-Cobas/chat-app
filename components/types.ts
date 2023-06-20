@@ -16,7 +16,6 @@ export interface ChatPayload {
 
 export interface ChatBoxProps {
   chat: ChatPayload;
-  currentUserId: string;
 }
 
 export interface MessagesList {
@@ -37,7 +36,6 @@ export interface AuthButtonProps {
 
 export interface ChatListProps {
   chats: ChatPayload[];
-  currentUserId: string;
 }
 
 export interface AvatarProps {
@@ -73,8 +71,8 @@ export interface ChatInfoModalProps {
 }
 
 export interface ChatNameProps {
-  show: boolean
-  chatName: string
-  setChatName: (name: string) => void
-  setShowInput: (val: boolean) => void
+  show: boolean;
+  chatName: string;
+  setChatName: (name: string) => void;
+  setShowInput: (val: boolean) => void;
 }

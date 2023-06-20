@@ -13,10 +13,10 @@ function useCurrentUser() {
   );
 
   return {
-    data,
-    isLoading,
-    error,
-    mutate,
+    currentUser: data,
+    loadingCurrentUser: isLoading,
+    currentUserError: error,
+    currentUserMutate: mutate,
   };
 }
 

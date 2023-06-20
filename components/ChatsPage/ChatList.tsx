@@ -1,19 +1,16 @@
 import ChatBox from "./ChatBox";
 import type { ChatListProps, ChatPayload } from "../types";
 
-function ChatList({ chats, currentUserId }: ChatListProps) {
+function ChatList({ chats }: ChatListProps) {
   return (
     <ul className="w-full pt-16">
-      {chats && currentUserId &&
+      {chats &&
         chats.map((chat: ChatPayload) => (
           <li
             key={chat.id}
             className="text-2xl"
           >
-            <ChatBox
-              chat={chat}
-              currentUserId={currentUserId}
-            />
+            <ChatBox chat={chat} />
           </li>
         ))
       }

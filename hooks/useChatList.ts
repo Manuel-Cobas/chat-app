@@ -3,9 +3,12 @@ import fetcher from "@/libs/fetcher";
 import { useEffect, useState } from "react";
 import { ChatPayload } from "@/components/types";
 import { pusherClient } from "@/libs/pusher";
+import useCurrentUser from "./useCurrentUser";
 
-function useChatList(currentUserId: string) {
+function useChatList() {
+  const { currentUser } = useCurrentUser();
   const [chatsList, setChatsList] = useState<ChatPayload[]>([]);
+
   const {
     data: chats,
     isLoading,
@@ -20,20 +23,20 @@ function useChatList(currentUserId: string) {
   }, [isLoading, error, chats]);
 
   useEffect(() => {
-    if (currentUserId) {
-      pusherClient.subscribe(currentUserId);
+    if (currentUser) {
+      pusherClient.subscribe(currentUser.id);
       pusherClient.bind("chat:new", (data: ChatPayload) => {
         setChatsList([...chatsList, data]);
       });
     }
 
     return () => {
-      if (currentUserId) {
-        pusherClient.unsubscribe(currentUserId);
+      if (currentUser) {
+        pusherClient.unsubscribe(currentUser.id);
         pusherClient.unbind("chat:new");
       }
     };
-  }, [currentUserId, chats, setChatsList, chatsList]);
+  }, [currentUser, chats, setChatsList, chatsList]);
 
   return {
     chats: chatsList,

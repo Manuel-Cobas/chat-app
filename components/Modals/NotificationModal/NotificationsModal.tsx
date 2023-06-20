@@ -5,17 +5,12 @@ import NotificationsList from "./NotificationsList"
 import useNotifications from "@/hooks/useNotifications";
 import Loading from "@/components/Loading/Loading";
 import { useNotificationModal } from "@/store/useNotificationsModal";
-import { User } from "@prisma/client";
 
-interface NotificationsModalProps {
-  currentUser: User
-}
-
-function NotificationsModal({ currentUser }: NotificationsModalProps) {
+function NotificationsModal() {
   const {
     notifications,
     loadingNotifications
-  } = useNotifications(currentUser)
+  } = useNotifications()
 
   const { closeModal, isOpen } = useNotificationModal(state => state)
 

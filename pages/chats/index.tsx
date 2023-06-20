@@ -1,36 +1,29 @@
-import { getSession, signOut } from "next-auth/react";
 import { NextPageContext } from "next";
+import { getSession, signOut } from "next-auth/react";
 
 import ActiveStatus from "@/components/ChatsPage/ActiveStatus";
 import ChatList from "@/components/ChatsPage/ChatList";
 import Navigation from "@/components/ChatsPage/Navigation"
 import UserBox from "@/components/ChatsPage/UserBox";
-import Spinner from "@/components/Loading/Spinner";
+import Loading from "@/components/Loading/Loading";
 import QuestionModal from "@/components/Modals/QuestionModal";
 import NotificationsModal from "@/components/Modals/NotificationModal/NotificationsModal";
 
 import { useSearch } from "@/store/useSearch";
 import useChatList from "@/hooks/useChatList";
-import useCurrentUser from "@/hooks/useCurrentUser";
 import useSearchUser from "@/hooks/useUser";
 import isEmail from "@/libs/isEmail";
 
 function ChatsPage() {
-  const { data: currentUser } = useCurrentUser()
-
-  const {
-    chats,
-    loadingChats,
-    error
-  } = useChatList(currentUser?.id)
-
+  const { chats, loadingChats } = useChatList()
+  
   const { search } = useSearch()
-  const {
-    user,
-    loadingUser
-  } = useSearchUser()
-
+  const { user, loadingUser } = useSearchUser()
   const verifyEmail = isEmail(search)
+
+  if (loadingUser || loadingChats) {
+    return <Loading />
+  }
 
   return (
     <main className="w-screen h-full">
@@ -47,17 +40,8 @@ function ChatsPage() {
         </div>
       )}
 
-      {loadingChats || loadingUser && (
-        <div className="flex justify-center items-center w-screen pb-16 h-screen">
-          <Spinner />
-        </div>
-      )}
-
-      {!error && chats && currentUser && (
-        <ChatList
-          currentUserId={currentUser.id}
-          chats={chats}
-        />
+      {chats && (
+        <ChatList chats={chats} />
       )}
 
       <Navigation />
@@ -68,9 +52,7 @@ function ChatsPage() {
         method={signOut}
       />
 
-      <NotificationsModal
-        currentUser={currentUser}
-      />
+      <NotificationsModal />
     </main>
   )
 }

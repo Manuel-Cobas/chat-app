@@ -3,7 +3,7 @@ import useCurrentUser from "./useCurrentUser";
 import { User } from "@prisma/client";
 
 function useReceiver(members: User[]) {
-  const { data: currentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const [receiver, setReceiver] = useState<User | null>(null);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ function useReceiver(members: User[]) {
     }
   }, [members, currentUser]);
 
-  return { receiver };
+  return { receiver, currentUser };
 }
 
 export default useReceiver;
