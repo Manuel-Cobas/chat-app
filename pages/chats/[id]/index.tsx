@@ -12,7 +12,7 @@ import QuestionModal from "@/components/Modals/QuestionModal";
 
 function Chat() {
   const { id: chatId } = useRouter().query
-  const { data: currentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const { data: chat, isLoading: loadingChat } = useChat(chatId?.toString())
   const { messagesState: messages } = useMessageList(
     chat?.messages,
@@ -29,7 +29,6 @@ function Chat() {
       {loadingChat && (
         <Loading />
       )}
-
 
       {messages && messages.length === 0 && (
         <div className="w-full text-center text-gray-700 text-lg pt-20">

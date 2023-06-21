@@ -13,21 +13,28 @@ export default async function handler(
   try {
     const { currentUser } = await serverAuth(req, res);
 
-    const notifications = await prisma.notification.findMany({
+    const notifications = await prisma.chat.findMany({
       include: {
-        chat: true,
-        sender: true,
+        members: true,
+        notifications: {
+          where: {
+            NOT: {
+              senderId: currentUser.id,
+            },
+          },
+
+          select: {
+            id: true,
+            chatId: true,
+            message: true,
+            createdAt: true,
+          },
+        },
       },
 
       where: {
-        chat: {
-          membersIds: {
-            has: currentUser.id,
-          },
-        },
-
-        NOT: {
-          senderId: currentUser.id,
+        membersIds: {
+          has: currentUser.id,
         },
       },
     });

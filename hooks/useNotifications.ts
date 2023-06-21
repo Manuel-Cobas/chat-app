@@ -7,10 +7,10 @@ import { pusherClient } from "@/libs/pusher";
 
 function useNotifications() {
   const { currentUser } = useCurrentUser();
-  const { data, isLoading, error } = useSWR("/api/notifications", fetcher);
+  const { data, isLoading, error } = useSWR("/api/notifications", fetcher, {
+    revalidateOnMount: false,
+  });
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  notifications && console.log("NOTIS", notifications);
 
   useEffect(() => {
     if (data && data.length > 0) {

@@ -1,4 +1,4 @@
-import { Message, User } from "@prisma/client";
+import { Message, Notification, User } from "@prisma/client";
 
 export interface ChatNavProps {
   chat: ChatPayload;
@@ -11,7 +11,13 @@ export interface ChatPayload {
   members: User[];
   membersIds: string[];
   messages: Message[];
+  notifications: NotificationPayload[];
   createdAt: string;
+}
+export interface NotificationPayload {
+  id: string;
+  chatId: string;
+  message: Message;
 }
 
 export interface ChatBoxProps {

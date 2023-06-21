@@ -9,8 +9,9 @@ function QuestionModal({ buttonTitle, title, description, method }: QuestionModa
   return (
     <Background show={isOpen}>
       <div className={clsx(
-        "flex flex-col items-center gap-6",
+        "flex flex-col items-center gap-6 transition-all duration-300",
         "bg-white p-6 rounded-lg",
+        isOpen ? "scale-100" : "scale-0"
       )}>
         <div className="flex flex-col items-center gap-2">
           <h2 className="text-lg lg:text-2xl">

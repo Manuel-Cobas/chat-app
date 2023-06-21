@@ -52,6 +52,7 @@ export default async function handler(
     const notificationStored = await prisma.notification.create({
       data: {
         chatId,
+        senderId: currentUser.id,
         messageId: messageStored.id,
       },
     });
