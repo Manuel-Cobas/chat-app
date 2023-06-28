@@ -1,13 +1,14 @@
-import { Contact } from "@prisma/client"
+import Contact from "@/components/Contact";
+import type { ContactPayload } from "@/components/types";
 
-function ContactList({ contacts }: { contacts: Contact[] }) {
+function ContactList({ contacts }: { contacts: ContactPayload[] }) {
   if (!contacts || contacts.length === 0) return null
 
   return (
-    <ul className="flex flex-col items-center w-full gap-2">
+    <ul className="flex flex-col items-center w-full pt-4 gap-2">
       {contacts.map((c) => (
         <li key={c.id} className="">
-          {c.firstName}
+          <Contact contact={c.contact} />
         </li>
       ))}
     </ul>

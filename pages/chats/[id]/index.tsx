@@ -8,12 +8,12 @@ import QuestionModal from "@/components/Modals/QuestionModal";
 import Loading from "@/components/Loading/Loading";
 
 import { useRouter } from "next/router";
-import { useChat } from "@/hooks/useFetchChat";
+import { useFetchChat } from "@/hooks/useFetchChat";
 import { useMessages } from "@/hooks/useMessages";
 
 function Chat() {
   const { id: chatId } = useRouter().query
-  const { chat, loadingChat } = useChat(chatId?.toString())
+  const { chat, loadingChat } = useFetchChat(chatId?.toString())
   const { messages } = useMessages(chat?.messages)
 
   return (

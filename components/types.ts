@@ -1,4 +1,4 @@
-import { Message, User } from "@prisma/client";
+import type { Contact, Message, User } from "@prisma/client";
 
 export interface ChatNavProps {
   chat: ChatPayload;
@@ -87,4 +87,8 @@ export interface ChatNameProps {
   chatName: string;
   setChatName: (name: string) => void;
   setShowInput: (val: boolean) => void;
+}
+
+export interface ContactPayload extends Contact {
+  contact: User;
 }

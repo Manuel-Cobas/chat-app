@@ -19,6 +19,13 @@ import isEmail from "@/libs/isEmail";
 import { useFetchContacts } from "@/hooks/useFetchContacts";
 import ContactList from "@/components/ContactList";
 
+/**Pendientes Para Jueves 29 de Junio (Mañana)
+ * Arreglar la maquetacion de los contactos
+ * Decidir como se gestionará la creación de chats
+ * agregar el campo lastMessage al modelo de la DB
+ * hacer pruebas con el fetching de datos
+ */
+
 function ChatsPage() {
   const { search } = useSearchModal()
 
@@ -85,16 +92,11 @@ function ChatsPage() {
 
       {contacts && contacts.length > 0 && (
         <section className="transition-all relative px-2 mt-8">
-          <div
-            className={
-              clsx(
-                "transition-all border border-transparent rounded-lg border-gray-100 shadow-md py-2",
-              )
-            }
-          >
+          <div className="py-2 border border-gray-100 rounded-lg shadow-md transition-all">
             <h2 className="absolute -top-4 left-6 text-lg px-2 bg-white font-semibold text-gray-600">
               Contactos
             </h2>
+
             <ContactList contacts={contacts} />
           </div>
         </section>

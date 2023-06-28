@@ -15,23 +15,34 @@ export default async function handler(
   try {
     const { currentUser } = await serverAuth(req, res);
     const { firstName, lastName, contactId } = req.body;
-
+    // Verificando que llegue el contactId (osea el id del usuario que al cual quiero agregar)
     if (!contactId) {
       return res.status(400).json({
         message: "contactId is required",
       });
     }
-
+    // verificando que el usuario exista
     const existingUser = await prisma.user.findUnique({
       where: {
-        id: contactId.toString(),
+        id: contactId,
       },
     });
 
     if (!existingUser) {
       return res.status(404).end();
     }
+    // si ya tengo agregado al usuario retornar Bad Request.
+    const existingContact = await prisma.contact.findMany({
+      where: {
+        contactId: contactId,
+        userId: currentUser.id,
+      },
+    });
 
+    if (existingContact && existingContact.length > 0) {
+      return res.status(400).end();
+    }
+    // si el usuario existe y aún no lo he agregado, procedo agregarlo
     const contactStored = await prisma.contact.create({
       data: {
         firstName: firstName.trim(),
@@ -40,10 +51,10 @@ export default async function handler(
         contactId: contactId,
       },
     });
-
+    // envio en tiempo real el valor (proximamente se retirara esto)
     await pusherServer.trigger(currentUser.id, "contact:add", contactStored);
-
-    return res.status(200).json(contactStored);
+    // send status code 201
+    return res.status(201).json(contactStored);
   } catch (error) {
     return res.status(400).json({
       error,

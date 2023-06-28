@@ -13,13 +13,13 @@ export default async function handler(
   try {
     const { email } = req.query;
     const { currentUser } = await serverAuth(req, res);
-
+    // verificando que exista el email (proximamente se recibira desde req.body)
     if (!email) {
       return res.status(400).json({
         message: "email is required",
       });
     }
-
+    //verificando que exista el usuario
     const existingUser = await prisma.user.findMany({
       where: {
         email: email.toString(),
@@ -32,28 +32,18 @@ export default async function handler(
     if (!existingUser || existingUser.length === 0) {
       return res.status(404).end();
     }
-
-    const existingChatWithReceiver = await prisma.chat.findMany({
+    // verificando si lo he agregado previamente y si es así retornar Bad Request.
+    const existingContact = await prisma.contact.findMany({
+      select: { id: true },
       where: {
-        OR: [
-          {
-            membersIds: {
-              equals: [currentUser.id, existingUser[0].id],
-            },
-          },
-          {
-            membersIds: {
-              equals: [existingUser[0].id, currentUser.id],
-            },
-          },
-        ],
+        userId: currentUser.id,
       },
     });
 
-    if (existingChatWithReceiver && existingChatWithReceiver.length > 0) {
+    if (existingContact && existingContact.length > 0) {
       return res.status(400).end();
     }
-
+    // return status code 200
     return res.status(200).json(existingUser[0]);
   } catch (error) {
     return res.status(400).json({

@@ -8,8 +8,8 @@ export function useFetchUser(email: string = "") {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const SearchUser = useCallback(() => {
-    email !== "" &&
-      axios
+    if (email !== "") {
+      return axios
         .get(`/api/users/${email}`)
         .then((res) => {
           setIsLoading(true);
@@ -17,6 +17,7 @@ export function useFetchUser(email: string = "") {
         })
         .catch((err) => console.error(err))
         .finally(() => setIsLoading(false));
+    }
   }, [email, setUser]);
 
   const clearUserSearch = useCallback(() => {
