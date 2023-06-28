@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
 
-function useMessage(chatId: string) {
+export function useSendMessage(chatId: string) {
   const [content, setContent] = useState("");
 
   const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -13,7 +13,7 @@ function useMessage(chatId: string) {
 
   const SendMessage = useCallback(() => {
     if (chatId && content !== "") {
-      axios.post("/api/messages", {
+      axios.post("/api/chats/messages", {
         chatId,
         content,
       });
@@ -24,8 +24,6 @@ function useMessage(chatId: string) {
     content,
     cleanInput,
     onChange,
-    SendMessage
+    SendMessage,
   };
 }
-
-export default useMessage;

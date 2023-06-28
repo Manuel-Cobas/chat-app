@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import serverAuth from "@/libs/serverAuth";
+
 import prisma from "@/libs/prismadb";
+import serverAuth from "@/libs/serverAuth";
 import { pusherServer } from "@/libs/pusher";
 
 export default async function handler(
@@ -13,11 +14,11 @@ export default async function handler(
 
   try {
     const { currentUser } = await serverAuth(req, res);
-    const { contactId } = req.query;
+    const { firstName, lastName, contactId } = req.body;
 
-    if (!contactId) {
+    if (!contactId || !firstName || !lastName) {
       return res.status(400).json({
-        message: "contactId is required",
+        message: "contactId, firstName, lastName are required",
       });
     }
 
@@ -32,17 +33,15 @@ export default async function handler(
     }
 
     const contactStored = await prisma.contact.create({
-      include: {
-        user: true,
-        contact: true,
-      },
       data: {
+        firstName,
+        lastName,
         userId: currentUser.id,
         contactId: contactId.toString(),
       },
     });
 
-    await pusherServer.trigger(currentUser.id, 'contact:add', contactStored)
+    await pusherServer.trigger(currentUser.id, "contact:add", contactStored);
 
     return res.status(200).json(contactStored);
   } catch (error) {

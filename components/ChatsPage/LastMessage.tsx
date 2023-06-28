@@ -14,7 +14,9 @@ function LastMessage({ messages, currentUserId }: LastMessage) {
   return (
     <p className="text-sm text-gray-500">
       {lastMessage.senderId === currentUserId && (
-        <span className="font-semibold text-gray-600">Tú: </span>
+        <span className="font-semibold mr-2 text-gray-600">
+          Tú:
+        </span>
       )}
 
       {lastMessage.content}

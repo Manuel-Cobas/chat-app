@@ -16,8 +16,19 @@ export default async function handler(
     const existingChats = await prisma.chat.findMany({
       include: {
         members: true,
-        messages: true,
+        notifications: {
+          where: {
+            NOT: {
+              senderId: currentUser.id,
+            },
+          },
+
+          select: {
+            id: true,
+          },
+        },
       },
+
       where: {
         membersIds: {
           has: currentUser.id,
@@ -25,7 +36,6 @@ export default async function handler(
       },
     });
 
-    console.log(existingChats);
     return res.status(200).json(existingChats);
   } catch (error) {
     return res.status(400).json({

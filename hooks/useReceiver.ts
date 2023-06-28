@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import useCurrentUser from "./useCurrentUser";
+import { useCurrentUser } from "./useCurrentUser";
 import { User } from "@prisma/client";
 
-function useReceiver(members: User[]) {
+export function useReceiver(members: User[]) {
   const { currentUser } = useCurrentUser();
   const [receiver, setReceiver] = useState<User | null>(null);
 
@@ -15,5 +15,3 @@ function useReceiver(members: User[]) {
 
   return { receiver, currentUser };
 }
-
-export default useReceiver;

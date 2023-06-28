@@ -1,29 +1,25 @@
-import { useRouter } from "next/router";
-import useChat from "@/hooks/useChat";
-import useCurrentUser from "@/hooks/useCurrentUser";
+import { getSession } from "next-auth/react";
+import { NextPageContext } from "next";
+
 import ChatNav from "@/components/ChatView/ChatNav";
 import MessagesList from "@/components/ChatView/MessageList";
 import MessageInput from "@/components/ChatView/MessageInput";
-import { NextPageContext } from "next";
-import { getSession } from "next-auth/react";
-import useMessageList from "@/hooks/useMessageList";
-import Loading from "@/components/Loading/Loading";
 import QuestionModal from "@/components/Modals/QuestionModal";
+import Loading from "@/components/Loading/Loading";
+
+import { useRouter } from "next/router";
+import { useChat } from "@/hooks/useFetchChat";
+import { useMessages } from "@/hooks/useMessages";
 
 function Chat() {
   const { id: chatId } = useRouter().query
-  const { currentUser } = useCurrentUser();
-  const { data: chat, isLoading: loadingChat } = useChat(chatId?.toString())
-  const { messagesState: messages } = useMessageList(
-    chat?.messages,
-    currentUser?.id
-  )
+  const { chat, loadingChat } = useChat(chatId?.toString())
+  const { messages } = useMessages(chat?.messages)
 
   return (
     <main className="">
       <ChatNav
         chat={chat}
-        currentUserId={currentUser?.id}
       />
 
       {loadingChat && (
@@ -36,10 +32,9 @@ function Chat() {
         </div>
       )}
 
-      {messages && messages.length > 0 && currentUser && (
+      {messages && messages.length > 0 && (
         <MessagesList
           messages={messages}
-          currentUserId={currentUser.id}
         />
       )}
 

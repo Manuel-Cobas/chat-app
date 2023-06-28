@@ -27,8 +27,12 @@ export default async function handler(
       },
       where: {
         id: chatId.toString(),
+        membersIds: {
+          has: currentUser.id,
+        },
       },
     });
+
     console.log("CHATTTTTT", existingChat);
     return res.status(200).json(existingChat[0]);
   } catch (error) {

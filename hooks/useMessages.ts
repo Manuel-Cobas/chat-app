@@ -1,8 +1,11 @@
 import { Message } from "@prisma/client";
-import { useEffect, useState } from "react";
 import { pusherClient } from "@/libs/pusher";
 
-function useMessages(messages: Message[], currentUserId: string) {
+import { useEffect, useState } from "react";
+import { useCurrentUser } from "./useCurrentUser";
+
+export function useMessages(messages: Message[]) {
+  const { currentUser } = useCurrentUser();
   const [messagesState, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
@@ -12,22 +15,22 @@ function useMessages(messages: Message[], currentUserId: string) {
   }, [messages]);
 
   useEffect(() => {
-    if (currentUserId) {
-      pusherClient.subscribe(currentUserId);
+    if (currentUser) {
+      pusherClient.subscribe(currentUser.id);
       pusherClient.bind("message:send", (data: Message) => {
         setMessages([...messagesState, data]);
       });
     }
-    
+
     () => {
-      if (currentUserId) {
-        pusherClient.unsubscribe(currentUserId);
+      if (currentUser) {
+        pusherClient.unsubscribe(currentUser.id);
         pusherClient.unbind("message:send");
       }
     };
-  }, [messagesState, currentUserId]);
-  
-  return { messagesState };
-}
+  }, [messagesState, currentUser]);
 
-export default useMessages;
+  return {
+    messages: messagesState,
+  };
+}

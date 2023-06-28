@@ -1,8 +1,13 @@
-import { Message, Notification, User } from "@prisma/client";
+import { Message, User } from "@prisma/client";
 
 export interface ChatNavProps {
   chat: ChatPayload;
-  currentUserId: string;
+}
+
+export interface NotificationsModalProps {
+  notifications: ChatPayload[];
+  loadingNotifs: boolean;
+  totalNotifs: number;
 }
 
 export interface ChatPayload {
@@ -12,8 +17,10 @@ export interface ChatPayload {
   membersIds: string[];
   messages: Message[];
   notifications: NotificationPayload[];
+  _count: { notifications: number };
   createdAt: string;
 }
+
 export interface NotificationPayload {
   id: string;
   chatId: string;
@@ -26,7 +33,6 @@ export interface ChatBoxProps {
 
 export interface MessagesList {
   messages: Message[];
-  currentUserId: string;
 }
 
 export interface MessageInputProps {

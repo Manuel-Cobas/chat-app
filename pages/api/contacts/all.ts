@@ -16,17 +16,13 @@ export default async function handler(
 
     const contacts = await prisma.contact.findMany({
       include: {
-        user: true,
         contact: true,
       },
+
       where: {
         userId: currentUser.id,
       },
     });
-    console.log("CONTACTRS", contacts);
-    if (!contacts || contacts.length === 0) {
-      return res.status(404).end();
-    }
 
     return res.status(200).json(contacts);
   } catch (error) {

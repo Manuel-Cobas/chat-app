@@ -49,7 +49,7 @@ export default async function handler(
       },
     });
 
-    const notificationStored = await prisma.notification.create({
+    await prisma.notification.create({
       data: {
         chatId,
         senderId: currentUser.id,
@@ -58,12 +58,6 @@ export default async function handler(
     });
 
     pusherServer.trigger(currentUser.id, "message:send", messageStored);
-
-    pusherServer.trigger(
-      currentUser.id,
-      "notification:send",
-      notificationStored
-    );
 
     return res.status(200).json(messageStored);
   } catch (error) {

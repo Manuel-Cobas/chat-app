@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { ChangeEvent } from "react";
 import clsx from "clsx";
 
-import useUser from "@/hooks/useUser";
+import { useFetchUser } from "@/hooks/useFetchUser";
 import { useSearch } from "@/store/useSearch";
 import isEmail from "@/libs/isEmail";
 
@@ -12,8 +12,8 @@ import { HiBackspace } from "react-icons/hi";
 
 function Search() {
   const { search, isOpen, setSearch, closeSearch } = useSearch((state) => state)
+  const { SearchUser, clearUserSearch } = useFetchUser(search)
   const verifyEmail = isEmail(search)
-  const { SearchUser, clearUserSearch } = useUser(search)
 
   useEffect(() => {
     return () => {
@@ -29,22 +29,22 @@ function Search() {
         if (verifyEmail) SearchUser()
       }}
       className={clsx(
-        "flex justify-between absolute top-0 right-0 left-0 h-14 bg-gray-50 gap-2 px-4 shadow",
+        "flex justify-between absolute top-0 right-0 left-0 h-16 bg-gray-50 gap-2 px-2 shadow",
         "transition-transform duration-200",
         isOpen ? "translate-y-0" : "-translate-y-full"
       )}>
 
-      <div className="flex items-center gap-2 w-11/12">
+      <div className="flex items-center gap-2 w-full">
         <BiArrowBack
           onClick={() => {
             setSearch("")
             closeSearch()
           }}
-          className="text-2xl text-gray-700 cursor-pointer"
+          className="text-[1.7em] text-gray-700 cursor-pointer"
         />
 
         <input
-          className="bg-gray-200 rounded-full w-11/12 text-gray-700 outline-none placeholder:text-gray-600 px-4 py-2"
+          className="bg-gray-200 rounded-full w-full text-gray-700 outline-none placeholder:text-gray-600 px-4 py-2"
           placeholder="Buscar"
           value={search}
           type="text"
@@ -60,13 +60,15 @@ function Search() {
 
       <div className="flex items-center gap-1">
         <button
-          className={clsx(
-            verifyEmail ? "block" : "hidden"
-          )}
+          disabled={verifyEmail === false}
+          className={""}
           type="submit"
         >
           <MdPersonSearch
-            className="text-rose-500 text-4xl p-1 cursor-pointer"
+            className={clsx(
+              "text-4xl p-1 cursor-pointer transition-all delay-100 duration-100",
+              verifyEmail ? "text-rose-500" : "text-gray-700"
+            )}
           />
         </button>
         <button>

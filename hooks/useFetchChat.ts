@@ -1,18 +1,16 @@
 import fetcher from "@/libs/fetcher";
 import useSWR from "swr";
 
-function useChat(chatId: any) {
+export function useFetchChat(chatId: any) {
   const { data, isLoading, error, mutate } = useSWR(
     `/api/chats/${chatId.toString()}`,
     fetcher
   );
 
   return {
-    data,
-    isLoading,
-    error,
-    mutate,
+    chat: data,
+    loadingChat: isLoading,
+    chatError: error,
+    chatMutate: mutate,
   };
 }
-
-export default useChat;

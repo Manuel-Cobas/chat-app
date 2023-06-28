@@ -1,8 +1,9 @@
-import { useSearchUserStore } from "@/store/store";
-import { useState, useCallback } from "react";
 import axios from "axios";
 
-function useSearchUser(email: string = "") {
+import { useState, useCallback } from "react";
+import { useSearchUserStore } from "@/store/store";
+
+export function useFetchUser(email: string = "") {
   const { user, setUser } = useSearchUserStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -29,5 +30,3 @@ function useSearchUser(email: string = "") {
     clearUserSearch,
   };
 }
-
-export default useSearchUser;

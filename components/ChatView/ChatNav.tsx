@@ -2,7 +2,7 @@ import Image from "next/image";
 import ChatMenu from "./ChatMenu";
 
 import { useRouter } from "next/router";
-import useReceiver from "@/hooks/useReceiver";
+import { useReceiver } from "@/hooks/useReceiver";
 import type { ChatNavProps } from "../types";
 
 import { BiArrowBack } from "react-icons/bi"
