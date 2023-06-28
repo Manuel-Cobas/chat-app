@@ -1,17 +1,17 @@
-import { useEffect } from "react";
-import { ChangeEvent } from "react";
 import clsx from "clsx";
-
-import { useFetchUser } from "@/hooks/useFetchUser";
-import { useSearch } from "@/store/useSearch";
-import isEmail from "@/libs/isEmail";
 
 import { MdPersonSearch } from "react-icons/md";
 import { BiArrowBack } from "react-icons/bi";
 import { HiBackspace } from "react-icons/hi";
 
+import { useEffect, type ChangeEvent } from "react";
+import { useFetchUser } from "@/hooks/useFetchUser";
+import { useSearchModal } from "@/zustand/useSearchModal";
+
+import isEmail from "@/libs/isEmail";
+
 function Search() {
-  const { search, isOpen, setSearch, closeSearch } = useSearch((state) => state)
+  const { search, isOpen, setSearch, closeSearch } = useSearchModal((state) => state)
   const { SearchUser, clearUserSearch } = useFetchUser(search)
   const verifyEmail = isEmail(search)
 

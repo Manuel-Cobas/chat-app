@@ -2,7 +2,7 @@ import fetcher from "@/libs/fetcher";
 import useSWR from "swr";
 
 export function useFetchContacts() {
-  const { data, isLoading, error, mutate } = useSWR("/api/contacts/", fetcher);
+  const { data, isLoading, error, mutate } = useSWR("/api/contacts/all", fetcher);
   data && console.log("CONTACTS!!", data);
   return {
     contacts: data,

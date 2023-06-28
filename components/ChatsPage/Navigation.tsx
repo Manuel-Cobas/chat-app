@@ -2,14 +2,14 @@ import { BiLogOut } from "react-icons/bi";
 import { HiOutlineSearch } from "react-icons/hi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
-import { useSearch } from "@/store/useSearch";
+import { useSearchModal } from "@/zustand/useSearchModal";
 import { useQuestionModal } from "@/store/useQuestionModal";
 import { useNotificationModal } from "@/store/useNotificationsModal";
 import { useFetchNotifs } from "@/hooks/useFetchNotifs";
 
 
 function Navigation() {
-  const { openSearch } = useSearch((state) => state)
+  const { openSearch } = useSearchModal((state) => state)
   const { openModal: openLogoutQuestion } = useQuestionModal(state => state)
   const { openModal: openNotifications } = useNotificationModal(state => state)
 

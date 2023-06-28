@@ -16,9 +16,9 @@ export default async function handler(
     const { currentUser } = await serverAuth(req, res);
     const { firstName, lastName, contactId } = req.body;
 
-    if (!contactId || !firstName || !lastName) {
+    if (!contactId) {
       return res.status(400).json({
-        message: "contactId, firstName, lastName are required",
+        message: "contactId is required",
       });
     }
 
@@ -34,10 +34,10 @@ export default async function handler(
 
     const contactStored = await prisma.contact.create({
       data: {
-        firstName,
-        lastName,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
         userId: currentUser.id,
-        contactId: contactId.toString(),
+        contactId: contactId,
       },
     });
 

@@ -3,13 +3,16 @@ import Image from "next/image";
 import { useCallback } from "react";
 
 import { useSearch } from "@/store/useSearch";
-import { UserBoxProps } from "../types";
+import { useAddContactModal } from '@/zustand/useAddContactModal';
 
 import { IoMdPersonAdd } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 
+import type { UserBoxProps } from "../types";
+
 function UserBox({ user, image }: UserBoxProps) {
   const { closeSearch, setSearch } = useSearch(state => state)
+  const { openModal } = useAddContactModal(state => state)
 
   const newChat = useCallback(
     () => {
@@ -61,7 +64,7 @@ function UserBox({ user, image }: UserBoxProps) {
       </div>
 
       <IoMdPersonAdd
-        onClick={newChat}
+        onClick={openModal}
         className="text-3xl text-red-500 cursor-pointer"
       />
     </div>

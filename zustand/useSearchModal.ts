@@ -1,12 +1,16 @@
 import { create } from "zustand";
-import type { GenericModal } from "@/zustand/types";
+import type { SearchState } from "@/zustand/types";
 
-export const useSearchModal = create<GenericModal>()((set) => ({
+export const useSearchModal = create<SearchState>()((set) => ({
+  search: "",
   isOpen: false,
-  closeModal: () => {
+  setSearch: (current: string) => {
+    set((state) => ({ ...state, search: current }));
+  },
+  closeSearch: () => {
     set((state) => ({ ...state, isOpen: false }));
   },
-  openModal: () => {
+  openSearch: () => {
     set((state) => ({ ...state, isOpen: true }));
   },
 }));

@@ -9,17 +9,21 @@ import Navigation from "@/components/ChatsPage/Navigation"
 import UserBox from "@/components/ChatsPage/UserBox";
 import Loading from "@/components/Loading/Loading";
 import QuestionModal from "@/components/Modals/QuestionModal";
+import AddContactModal from "@/components/Modals/AddContactModal";
 import NotificationsModal from "@/components/Modals/NotificationModal/NotificationsModal";
 
-import { useSearch } from "@/store/useSearch";
+import { useSearchModal } from "@/zustand/useSearchModal";
 import { useFetchChats } from "@/hooks/useFetchChats";
 import { useFetchUser } from "@/hooks/useFetchUser";
 import isEmail from "@/libs/isEmail";
+import { useFetchContacts } from "@/hooks/useFetchContacts";
+import ContactList from "@/components/ContactList";
 
 function ChatsPage() {
-  const { search } = useSearch()
+  const { search } = useSearchModal()
 
   const { chats, loadingChats } = useFetchChats()
+  const { contacts, loadingContacts } = useFetchContacts()
   const { user, loadingUser } = useFetchUser()
   const verifyEmail = isEmail(search)
 
@@ -33,12 +37,12 @@ function ChatsPage() {
 
       <section
         className={clsx(
-          "flex flex-col gap-2 w-screen px-2 ",
+          "flex flex-col gap-4 w-screen px-2 ",
           "transition-all",
           verifyEmail && user ? "scale-y-100 pt-20" : "scale-y-0 pt-0"
         )}
       >
-        <div className="relative border border-gray-100 rounded-lg shadow p-2">
+        <div className="relative rounded-lg shadow-md mt-4 mb-4 p-2">
           <h2 className="absolute -top-4 left-6 text-lg px-2 bg-white font-semibold text-gray-600">
             Busqueda
           </h2>
@@ -57,13 +61,13 @@ function ChatsPage() {
         <section
           className={clsx(
             "transition-all",
-            verifyEmail && user ? "relative px-2 mt-8" : "pt-16"
+            verifyEmail && user ? "relative px-2 mt-8" : "pt-8"
           )}
         >
           <div
             className={clsx(
               "transition-all border border-transparent rounded-lg",
-              verifyEmail && user && "border-gray-100 shadow py-2"
+              verifyEmail && user && "border-gray-100 shadow-md py-2"
             )}
           >
             <h2
@@ -79,10 +83,33 @@ function ChatsPage() {
         </section>
       )}
 
+      {contacts && contacts.length > 0 && (
+        <section className="transition-all relative px-2 mt-8">
+          <div
+            className={
+              clsx(
+                "transition-all border border-transparent rounded-lg border-gray-100 shadow-md py-2",
+              )
+            }
+          >
+            <h2 className="absolute -top-4 left-6 text-lg px-2 bg-white font-semibold text-gray-600">
+              Contactos
+            </h2>
+            <ContactList contacts={contacts} />
+          </div>
+        </section>
+      )}
+
       <Navigation />
       <Search />
 
-      <NotificationsModal />
+      {user && (
+        <AddContactModal
+          user={user}
+        />
+      )}
+
+      < NotificationsModal />
       <QuestionModal
         title={"Desea Cerrar Sesión?"}
         buttonTitle="Cerrar"
