@@ -8,7 +8,7 @@ function Contact({ contact }: { contact: User }) {
   if (!contact) return null
 
   return (
-    <div className="flex items-center justify-around w-full px-4 sm:w-1/2">
+    <div className="flex items-center justify-around w-full px-4">
       <div
         className="flex items-center gap-4"
         onClick={() => console.log("ir a chat")}

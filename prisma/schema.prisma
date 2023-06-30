@@ -75,16 +75,15 @@ model Contact {
 }
 
 model Chat {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  lastMessageId String? @db.ObjectId
 
   members    User[]   @relation(fields: [membersIds], references: [id])
   membersIds String[] @db.ObjectId
 
   messages      Message[]      @relation("messages")
   notifications Notification[] @relation("notifications")
-
-  contacts Contact[]
+  contacts      Contact[]
 
   createdAt DateTime @default(now())
 }
@@ -93,12 +92,11 @@ model Message {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   content String
 
-  chat   Chat   @relation("messages", fields: [chatId], references: [id])
+  chat   Chat   @relation("messages", fields: [chatId], references: [id], onDelete: Cascade)
   chatId String @db.ObjectId
 
-  sender   User   @relation("seen", fields: [senderId], references: [id], onDelete: Cascade)
-  senderId String @db.ObjectId
-
+  sender        User           @relation("seen", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId      String         @db.ObjectId
   notifications Notification[]
 
   createdAt DateTime @default(now())

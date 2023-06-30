@@ -13,7 +13,7 @@ export default async function handler(
 
   try {
     const { currentUser } = await serverAuth(req, res);
-    const { name, receiverId } = req.body;
+    const { receiverId } = req.body;
 
     if (!receiverId) {
       return res.status(400).json({
@@ -32,17 +32,12 @@ export default async function handler(
     }
 
     const chatStored = await prisma.chat.create({
-      include: {
-        messages: true,
-        members: true,
-      },
       data: {
-        name: !name ? existingReceiver.name : name,
         membersIds: [currentUser.id, receiverId],
       },
     });
 
-    pusherServer.trigger(currentUser.id, "chat:new", chatStored);
+    // pusherServer.trigger(currentUser.id, "chat:new", chatStored);
 
     return res.status(201).json(chatStored);
   } catch (error) {

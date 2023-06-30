@@ -4,6 +4,7 @@ import { getSession, signOut } from "next-auth/react";
 
 import Search from "@/components/ChatsPage/Search";
 import ActiveStatus from "@/components/ChatsPage/ActiveStatus";
+import ContactList from "@/components/ContactList";
 import ChatList from "@/components/ChatsPage/ChatList";
 import Navigation from "@/components/ChatsPage/Navigation"
 import UserBox from "@/components/ChatsPage/UserBox";
@@ -15,15 +16,15 @@ import NotificationsModal from "@/components/Modals/NotificationModal/Notificati
 import { useSearchModal } from "@/zustand/useSearchModal";
 import { useFetchChats } from "@/hooks/useFetchChats";
 import { useFetchUser } from "@/hooks/useFetchUser";
-import isEmail from "@/libs/isEmail";
 import { useFetchContacts } from "@/hooks/useFetchContacts";
-import ContactList from "@/components/ContactList";
+import isEmail from "@/libs/isEmail";
 
 /**Pendientes Para Jueves 29 de Junio (Mañana)
- * Arreglar la maquetacion de los contactos
- * Decidir como se gestionará la creación de chats
+ * Arreglar la maquetacion de los contactos (el problema era sm:w-1/2 en el contendor) check
  * agregar el campo lastMessage al modelo de la DB
+ * quitar params de url de la api que no se necesiten
  * hacer pruebas con el fetching de datos
+ * Decidir como se gestionará la creación de chats
  */
 
 function ChatsPage() {

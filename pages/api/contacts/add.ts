@@ -31,7 +31,7 @@ export default async function handler(
     if (!existingUser) {
       return res.status(404).end();
     }
-    // si ya tengo agregado al usuario retornar Bad Request.
+    // // si ya tengo agregado al usuario retornar Bad Request.
     const existingContact = await prisma.contact.findMany({
       where: {
         contactId: contactId,
@@ -43,10 +43,17 @@ export default async function handler(
       return res.status(400).end();
     }
     // si el usuario existe y aún no lo he agregado, procedo agregarlo
+    const chatStored = await prisma.chat.create({
+      data: {
+        membersIds: [currentUser.id, contactId],
+      },
+    });
+
     const contactStored = await prisma.contact.create({
       data: {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
+        chatId: chatStored.id,
         userId: currentUser.id,
         contactId: contactId,
       },
